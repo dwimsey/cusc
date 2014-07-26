@@ -1,0 +1,16 @@
+# David Wimsey's Unified profile script
+#
+# Attempts to make the percieved environment consistent across platforms
+# where possible.
+#
+
+BLOCKSIZE=K; export BLOCKSIZE
+
+# Add our home bin directory to path
+PATH=$PATH:$HOME/bin; export PATH
+
+if [ -x /usr/bin/pico -o -x /usr/local/bin/pico  ]; then
+	echo found pico
+else
+	echo pico not found
+fi
