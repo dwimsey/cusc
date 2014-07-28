@@ -3,22 +3,47 @@
 # Attempts to make the percieved environment consistent across platforms
 # where possible.
 #
+#
+# Options:
+# name = default value
+#
+# List of editors to use, in order of preference
+# First one found will be used
+#
+# PREFERED_SHELLS=(nano pico ee vim vi)
+#
+#
+#
+#
+#
+#
+#
+# !! DO NOT EDIT BELOW THIS LINE !!
+#
+#
 
-echo -n "BitStream Unified Profile v0.1: "
+/usr/bin/env echo -n "BitStream Unified Profile v0.2: "
 
-BLOCKSIZE=K; export BLOCKSIZE
+if [ "${PREFERED_SHELLS-no}" = "no" ]
+then
+	PREFERED_SHELLS=(nano pico ee vim vi)
+fi
+
+if [ "${BLOCKSIZE-no}" = "no" ]
+then
+	BLOCKSIZE=K; export BLOCKSIZE
+fi
 
 if [ -x /usr/libexec/path_helper ]; then
 	eval `/usr/libexec/path_helper -s`
 fi
 
 if [ "${ZSH_NAME-no}" != "no" ]; then
-	echo "zsh"
+	echo " zsh"
 else
 	if [ "${BASH-no}" != "no" ]; then
-		echo "bash "
+		echo " bash"
 		if [ -r /etc/bashrc ]; then
-			echo "loading /etc/bashrc"
 			. /etc/bashrc
 		else
 			echo
@@ -33,18 +58,9 @@ if [ -r "$HOME/bin" ]; then
 	PATH=$PATH:$HOME/bin; export PATH
 fi
 
-
-
-if [ -x /bin/nano -o -x /usr/bin/nano -o -x /usr/local/bin/nano  ]; then
-	export EDITOR=nano
-else
-	if [ -x /bin/pico -o -x /usr/bin/pico -o -x /usr/local/bin/pico  ]; then
-		export EDITOR=pico
-	else
-		if [ -x /bin/vi -o -x /usr/bin/vi -o -x /usr/local/bin/vi  ]; then
-			export EDITOR=vi
-		else
-			echo No editor found, ignoring EDITOR environment variable
-		fi
+for prefsh in $PREFERED_SHELLS ; do 
+	if [ -x /bin/$prefsh -o -x /usr/bin/$prefsh -o -x /usr/local/bin/$prefsh  ]; then
+		EDITOR=$prefsh; export EDITOR
+		break
 	fi
-fi
+done
