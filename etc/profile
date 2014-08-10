@@ -26,6 +26,11 @@ then
 	. /etc/upenv
 fi
 
+if [ -r ${HOME}/.upenv ]
+then
+	. ${HOME}/.upenv
+fi
+
 if [ "${PREFERRED_EDITORS-no}" = "no" ]
 then
 	PREFERRED_EDITORS=(nano pico ee vim vi)
