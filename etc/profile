@@ -16,8 +16,15 @@
 #
 # !! DO NOT EDIT BELOW THIS LINE !!
 #
+if [[ -o login ]]; then
+	/usr/bin/env echo -n "BitStream Unified Profile v0.3: "
+fi
 
-/usr/bin/env echo -n "BitStream Unified Profile v0.2: "
+# Check for and source Unified Profile environment setup if it exists
+if [ -r /etc/upenv ]
+then
+	. /etc/upenv
+fi
 
 if [ "${PREFERRED_EDITORS-no}" = "no" ]
 then
