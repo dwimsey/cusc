@@ -10,7 +10,7 @@
 # List of editors to use, in order of preference
 # First one found will be used
 #
-# PREFERED_SHELLS=(nano pico ee vim vi)
+# PREFERRED_EDITORS=(nano pico ee vim vi)
 #
 #
 #
@@ -19,9 +19,9 @@
 
 /usr/bin/env echo -n "BitStream Unified Profile v0.2: "
 
-if [ "${PREFERED_SHELLS-no}" = "no" ]
+if [ "${PREFERRED_EDITORS-no}" = "no" ]
 then
-	PREFERED_SHELLS=(nano pico ee vim vi)
+	PREFERRED_EDITORS=(nano pico ee vim vi)
 fi
 
 if [ "${BLOCKSIZE-no}" = "no" ]
@@ -53,9 +53,21 @@ if [ -r "$HOME/bin" ]; then
 	PATH=$PATH:$HOME/bin; export PATH
 fi
 
-for prefsh in $PREFERED_SHELLS ; do 
-	if [ -x /bin/$prefsh -o -x /usr/bin/$prefsh -o -x /usr/local/bin/$prefsh  ]; then
-		EDITOR=$prefsh; export EDITOR
-		break
-	fi
-done
+if [ "${EDITOR-no}" = "no" ]; then
+	for preferrededitor in $PREFERRED_EDITORS ; do 
+		if [ -x /usr/local/bin/${preferrededitor}  ]; then
+			EDITOR=/usr/local/bin/${preferrededitor}; export EDITOR
+			break
+		else
+			if [ -x /bin/${preferrededitor} ]; then
+				EDITOR=/bin/${preferrededitor}; export EDITOR
+				break
+			else
+				if [ -x /usr/bin/${preferrededitor} ]; then
+					EDITOR=/usr/bin/${preferrededitor}; export EDITOR
+					break
+				fi
+			fi
+		fi
+	done
+fi
