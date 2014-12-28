@@ -69,17 +69,24 @@ if [ "${EDITOR-no}" = "no" ]; then
 	for preferrededitor in $PREFERRED_EDITORS ; do 
 		if [ -x /usr/local/bin/${preferrededitor}  ]; then
 			EDITOR=/usr/local/bin/${preferrededitor}; export EDITOR
+			PREFERRED_EDITOR=${preferrededitor}
 			break
 		else
 			if [ -x /bin/${preferrededitor} ]; then
 				EDITOR=/bin/${preferrededitor}; export EDITOR
+				PREFERRED_EDITOR=${preferrededitor}
 				break
 			else
 				if [ -x /usr/bin/${preferrededitor} ]; then
 					EDITOR=/usr/bin/${preferrededitor}; export EDITOR
+					PREFERRED_EDITOR=${preferrededitor}
 					break
 				fi
 			fi
 		fi
 	done
+fi
+
+if [ "${PREFERRED_EDITOR}" = "nano" ]; then
+	alias pico=nano
 fi
