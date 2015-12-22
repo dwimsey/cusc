@@ -1,0 +1,8 @@
+#!/usr/bin/env
+
+sudo cp cusc/etc/profile /etc/zprofile
+sudo chown root:wheel /etc/zprofile
+sudo cp cusc/etc/skel/.nanorc /etc/skel
+sudo cat cusc/etc/skel/.zshrc >> /etc/skel/.zshrc
+cat cusc/etc/skel/.zshrc >> ~/.zshrc
+
